@@ -1,8 +1,28 @@
 const questions = [
     {
-        question: "",
-        choices: "",
+        question: "What does HTML stand for?",
+        choices: ["He That Must Live", "Hyperlink Text Maturing Language", "HyperText Makup Language", "Hey That Man Lied!"],
+        correctAnswer: 2
+    },
+    {
+        question: "What does CSS stand for?",
+        choices: ["Cascading Style Sheets", "Code Sample Searching", "Closed Super Source", "CLean Style Sheets"],
         correctAnswer: 0
+    },
+    {
+        question: "If HTML is thought of as a noun, what part of speech would javascript be?",
+        choices: ["Adverb", "Verb", "Punctuation", "Adjective"],
+        correctAnswer: 2
+    },
+    {
+        question: "What is the best way to study coding?",
+        choices: ["Live coding practice", "Watching videos on Youtube", "W3Schools and other resources", "All of the Above"],
+        correctAnswer: 3
+    },
+    {
+        question: "Coding is?",
+        choices: ["Impossible", "Lacking Resources", "Insignificant", "None of the Above"],
+        correctAnswer: 3
     },
 ];
 
@@ -22,6 +42,12 @@ function startQuiz() {
 
     loadQuestion();
 }
+const startButton = document.getElementById("start-button");
+
+startButton.addEventListener("click", function () {
+    startButton.style.display = "none";
+    startQuiz();
+});
 
 function loadQuestion() {
     const question = document.getElementById("question");
