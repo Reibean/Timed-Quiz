@@ -26,9 +26,28 @@ const questions = [
     },
 ];
 
-var currentQuestion = 0;
+var currentQuestionIndex = 0;
 var timeLeft = 60;
 var timerInterval;
+
+function loadQuestion() {
+    const question = document.getElementById("questions");
+    const choicesList = document.getElementById("choices");
+
+if (currentQuestionIndex < questions.length) {
+    const currentQuestion = questions[currentQuestionIndex];
+    question.textContent = currentQuestion.question;
+    choicesList.innerHTML = "";
+    currentQuestion.choices.forEach((choice, index) => {
+        const li = document.createElement("li");
+        li.textContent = choice;
+        li.addEventListener("click", () => checkAnswer(index));
+        choicesList.appendChild(li);
+    });
+} else {
+    gameOver();
+}
+}
 
 function startQuiz() {
     timerInterval = setInterval(function () {
@@ -49,24 +68,6 @@ startButton.addEventListener("click", function () {
     startQuiz();
 });
 
-function loadQuestion() {
-    const question = document.getElementById("question");
-    const choicesList = document.getElementById("choices");
-
-    if (currentQuestionIndex < questions.length) {
-        questionElement.textContent = questions[currentQuestionIndex].question;
-        choicesList.innerHTML = "";
-
-        questions[currentQuestionIndex].options.forEach((option, index) => {
-            const li = document.createElement("li");
-            li.textContent = option;
-            li.addEventListener("click", () => checkAnswer(index));
-            choicesList.appendChild(li);
-        });
-    } else {
-        gameOver();
-    }
-}
 
 function checkAnswer(selectedOptionIndex) {
     if (selectedOptionIndex === questions[currentQuestionIndex].correctAnswer) {
