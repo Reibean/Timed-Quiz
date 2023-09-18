@@ -1,3 +1,4 @@
+// Array of quiz questions with questions, choices, and correct answers
 const questions = [
     {
         question: "What does HTML stand for?",
@@ -12,7 +13,7 @@ const questions = [
     {
         question: "If HTML is thought of as a noun, what part of speech would javascript be?",
         choices: ["Adverb", "Verb", "Punctuation", "Adjective"],
-        correctAnswer: 2
+        correctAnswer: 1
     },
     {
         question: "What is the best way to study coding?",
@@ -30,9 +31,12 @@ var currentQuestionIndex = 0;
 var timeLeft = 60;
 var timerInterval;
 
+//Function to start the quiz
 function startQuiz() {
+    // Starts countdown
     timerInterval = setInterval(function () {
         if (timeLeft <= 0) {
+            // game over when timer hits 0
             gameOver();
         } else {
             document.getElementById("time-left").textContent = timeLeft;
@@ -40,6 +44,7 @@ function startQuiz() {
         }
     }, 1000);
 
+    // Loads first question
     loadQuestion();
 }
 const startButton = document.getElementById("start-button");
@@ -48,6 +53,18 @@ startButton.addEventListener("click", function () {
     startButton.style.display = "none";
     startQuiz();
 });
+
+function gameOver() {
+    clearInterval(timerInterval);
+    const gameOverScreen= document.getElementById("game-over");
+    const retryButton = document.getElementById("retry-button");
+    const scoreDisplay = document.getElementById("score");
+    const score = timeLeft;
+    scoreDisplay.textContent = 'Your Score: ' + score;
+    console.log(score);
+    retryButton.style.display = "block"
+    gameOverScreen.style.display = "block";
+};
 
 function loadQuestion() {
     const question = document.getElementById("question");
@@ -86,18 +103,18 @@ retryButton.addEventListener("click", function () {
     startQuiz();
 });
 
-function gameOver() {
-    clearInterval(timerInterval);
-    const gameOverScreen= document.getElementById("game-over");
-    gameOverScreen.style.display = "none";
-
-    const retryButton = document.getElementById("retry-button");
-    retryButton.style.display = "block"
-    gameOverScreen.style.display = "block";
-}
-
-document.getElementById("score-form").addEventListener("submit", function (e) {
+document.getElementById("score").addEventListener("submit", function (e) {
     e.preventDefault();
     const initials = document.getElementById("initials").value;
-    const score = timeLeft;
+    let score = timeLeft;
+    let scores = JSON.parse(localStorage.getItem("scores")) || [];
+    scores.push({ initials, score });
+    localStorage.setItem("scores", JSON.stringify(scores));
+    const highScoresDiv = document.getElementById("high-scores");
+    highScoresDiv.innerHTML = "";
+    scores.forEach((item, index) => {
+        const scoreItem = document.createElement("div");
+        scoreItem.textContent = `${index + 1}. ${item.initials}: ${item.score}`;
+        highScoresDiv.appendChild(scoreItem);
+});
 });

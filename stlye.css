@@ -8,3 +8,13 @@
     text-align: center;
     margin: 20px 20px;
 }
+ 
+#choices {
+    font-size: 20px;
+    margin: 10px 10px;
+}
+
+#timer {
+    font-size: 16px;
+    margin: 10px 10px;
+}
