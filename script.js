@@ -6,7 +6,7 @@ const questions = [
     },
     {
         question: "What does CSS stand for?",
-        choices: ["Cascading Style Sheets", "Code Sample Searching", "Closed Super Source", "CLean Style Sheets"],
+        choices: ["Cascading Style Sheets", "Code Sample Searching", "Closed Super Source", "Clean Style Sheets"],
         correctAnswer: 0
     },
     {
@@ -30,25 +30,6 @@ var currentQuestionIndex = 0;
 var timeLeft = 60;
 var timerInterval;
 
-function loadQuestion() {
-    const question = document.getElementById("questions");
-    const choicesList = document.getElementById("choices");
-
-if (currentQuestionIndex < questions.length) {
-    const currentQuestion = questions[currentQuestionIndex];
-    question.textContent = currentQuestion.question;
-    choicesList.innerHTML = "";
-    currentQuestion.choices.forEach((choice, index) => {
-        const li = document.createElement("li");
-        li.textContent = choice;
-        li.addEventListener("click", () => checkAnswer(index));
-        choicesList.appendChild(li);
-    });
-} else {
-    gameOver();
-}
-}
-
 function startQuiz() {
     timerInterval = setInterval(function () {
         if (timeLeft <= 0) {
@@ -68,19 +49,51 @@ startButton.addEventListener("click", function () {
     startQuiz();
 });
 
+function loadQuestion() {
+    const question = document.getElementById("question");
+    const choicesList = document.getElementById("choices");
+
+    if (currentQuestionIndex < questions.length) {
+        question.textContent = questions[currentQuestionIndex].question;
+        choicesList.innerHTML = "";
+
+        questions[currentQuestionIndex].choices.forEach((option, index) => {
+            const li = document.createElement("li");
+            li.textContent = option;
+            li.addEventListener("click", () => checkAnswer(index));
+            choicesList.appendChild(li);
+        });
+    } else {
+        gameOver();
+    }
+}
 
 function checkAnswer(selectedOptionIndex) {
     if (selectedOptionIndex === questions[currentQuestionIndex].correctAnswer) {
     } else {
-        timeLeft-= 5;
+        timeLeft-= 10;
     }
     currentQuestionIndex++;
     loadQuestion();
 }
 
+const retryButton = document.getElementById("retry-button");
+retryButton.addEventListener("click", function () {
+    currentQuestionIndex = 0;
+    timeLeft = 60;
+    loadQuestion();
+    document.getElementById("game-over").style.display = "none";
+    startQuiz();
+});
+
 function gameOver() {
     clearInterval(timerInterval);
-    document.getElementById("game-over").style.display = "block";
+    const gameOverScreen= document.getElementById("game-over");
+    gameOverScreen.style.display = "none";
+
+    const retryButton = document.getElementById("retry-button");
+    retryButton.style.display = "block"
+    gameOverScreen.style.display = "block";
 }
 
 document.getElementById("score-form").addEventListener("submit", function (e) {

@@ -1,0 +1,10 @@
+:root {
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+#retry-button {
+    text-align: center;
+    margin: 20px 20px;
+}
