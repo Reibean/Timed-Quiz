@@ -72,8 +72,9 @@ function loadQuestion() {
 
     if (currentQuestionIndex < questions.length) {
         question.textContent = questions[currentQuestionIndex].question;
+        //Clears previous choices
         choicesList.innerHTML = "";
-
+        //Add the answer choices as list items
         questions[currentQuestionIndex].choices.forEach((option, index) => {
             const li = document.createElement("li");
             li.textContent = option;
@@ -81,10 +82,11 @@ function loadQuestion() {
             choicesList.appendChild(li);
         });
     } else {
+        //If all questions are answered, end the game
         gameOver();
     }
 }
-
+// function to check the selected answer
 function checkAnswer(selectedOptionIndex) {
     if (selectedOptionIndex === questions[currentQuestionIndex].correctAnswer) {
     } else {
@@ -110,7 +112,7 @@ document.getElementById("score").addEventListener("submit", function (e) {
     let scores = JSON.parse(localStorage.getItem("scores")) || [];
     scores.push({ initials, score });
     localStorage.setItem("scores", JSON.stringify(scores));
-    const highScoresDiv = document.getElementById("high-scores");
+    const highScoresDiv = document.getElementById("scores");
     highScoresDiv.innerHTML = "";
     scores.forEach((item, index) => {
         const scoreItem = document.createElement("div");
